@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
+html,
+body,
+#root {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 :root {
+
   /* Main Colors */
   --primary-color: #0B3C5D;
   --secondary-color: #00A8A8;
@@ -71,7 +79,10 @@ a:hover {
   padding: 60px 5%;
   max-width: 1400px;
   margin: 0 auto;
+  overflow: hidden;
+  /* Empêche le débordement des gutters antd */
 }
+
 
 .white-bg {
   background-color: var(--white);
