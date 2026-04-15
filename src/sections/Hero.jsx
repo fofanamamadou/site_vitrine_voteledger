@@ -7,8 +7,9 @@ const { Title, Paragraph } = Typography;
 
 const Hero = () => {
     return (
-        <section className="hero-section">
+        <section className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '72px' }}>
             <Row className="section-container" style={{ width: '100%', padding: '0 5%' }} align="middle" gutter={[48, 48]}>
+
                 <Col xs={24} lg={12}>
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}

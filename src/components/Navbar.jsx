@@ -8,14 +8,7 @@ const { Header } = Layout;
 const Navbar = () => {
     const [mobileVisible, setMobileVisible] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const [activeKey, setActiveKey] = useState('home');
 
     const menuItems = [
         { key: 'home', label: 'Accueil' },
@@ -25,16 +18,46 @@ const Navbar = () => {
         { key: 'impact', label: 'Impact' },
     ];
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 20);
+
+            // Scroll Spy Logic
+            const headerOffset = 80;
+            const scrollPosition = window.scrollY + headerOffset + 10;
+
+            for (const item of menuItems) {
+                const element = document.getElementById(item.key);
+                if (element) {
+                    const { offsetTop, offsetHeight } = element;
+                    if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                        setActiveKey(item.key);
+                    }
+                }
+            }
+
+            // Special case for top
+            if (window.scrollY < 10) {
+                setActiveKey('home');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll(); // Initial check
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const handleMenuClick = (key) => {
         const element = document.getElementById(key);
         if (element) {
-            const headerOffset = 64;
+            const headerOffset = 72;
             const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
             window.scrollTo({
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+            setMobileVisible(false);
         }
     };
 
@@ -59,7 +82,7 @@ const Navbar = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
-                style={{ fontWeight: 800, fontSize: '24px', color: 'var(--primary-color)', cursor: 'pointer' }}
+                style={{ fontWeight: 800, fontSize: '24px', color: 'var(--primary-color)', cursor: 'pointer', fontFamily: 'Outfit' }}
                 onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
             >
                 VoteLedger
@@ -68,15 +91,21 @@ const Navbar = () => {
             <div className="desktop-menu" style={{ display: 'flex', alignItems: 'center', flex: 1, justifyContent: 'flex-end' }}>
                 <Menu
                     mode="horizontal"
-                    items={menuItems.map(item => ({ ...item, onClick: () => handleMenuClick(item.key) }))}
+                    selectedKeys={[activeKey]}
+                    items={menuItems.map(item => ({
+                        ...item,
+                        onClick: () => handleMenuClick(item.key),
+                        className: activeKey === item.key ? 'ant-menu-item-selected' : ''
+                    }))}
                     style={{
                         borderBottom: 'none',
                         background: 'transparent',
                         justifyContent: 'flex-end',
                         flex: 1,
-                        minWidth: '400px'
+                        minWidth: '400px',
+                        fontWeight: 500
                     }}
-                    className="hide-on-mobile"
+                    className="hide-on-mobile custom-nav-menu"
                 />
             </div>
 
@@ -95,14 +124,34 @@ const Navbar = () => {
             >
                 <Menu
                     mode="vertical"
-                    items={menuItems.map(item => ({ ...item, onClick: () => { handleMenuClick(item.key); setMobileVisible(false); } }))}
+                    selectedKeys={[activeKey]}
+                    items={menuItems.map(item => ({ ...item, onClick: () => handleMenuClick(item.key) }))}
                     style={{ borderRight: 'none' }}
                 />
-
             </Drawer>
+
+            <style>{`
+                .custom-nav-menu .ant-menu-item {
+                    transition: all 0.3s ease !important;
+                    padding: 0 20px !important;
+                }
+                .custom-nav-menu .ant-menu-item:hover {
+                    color: var(--secondary-color) !important;
+                }
+                .custom-nav-menu .ant-menu-item-selected {
+                    color: var(--primary-color) !important;
+                    font-weight: 700 !important;
+                }
+                .custom-nav-menu .ant-menu-item-selected::after {
+                    border-bottom-color: var(--primary-color) !important;
+                    border-bottom-width: 3px !important;
+                    bottom: -2px !important; /* Ajout d'espace */
+                }
+            `}</style>
 
         </Header>
     );
 };
+
 
 export default Navbar;

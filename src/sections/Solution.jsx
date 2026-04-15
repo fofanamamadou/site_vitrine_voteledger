@@ -10,10 +10,10 @@ const Solution = () => {
         <section className="light-bg" style={{ padding: '80px 0' }}>
             <div className="section-container" style={{ padding: '0 5%' }}>
                 <div className="section-title-wrapper">
-                    <Title className="section-title">VoteLedger, l'intégrité par la technologie</Title>
-                    <Paragraph className="section-subtitle">
+                    <Title className="section-title">VoteLedger : Le vote, sans fraude.</Title>
+                    {/* <Paragraph className="section-subtitle">
                         Une architecture distribuée qui numérise et sécurise les procès-verbaux dès la sortie des urnes.
-                    </Paragraph>
+                    </Paragraph> */}
                 </div>
 
                 <Row gutter={[48, 48]} align="middle">

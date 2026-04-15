@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
   /* Main Colors */
@@ -29,17 +29,17 @@
   --gradient-hero: linear-gradient(135deg, rgba(11, 60, 93, 0.05) 0%, rgba(0, 168, 168, 0.05) 100%);
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-
 body {
   background-color: var(--bg-light);
   color: var(--text-main);
   overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 h1,
@@ -47,10 +47,15 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.section-title,
+.hero-title,
+.card-title {
+  font-family: 'Outfit', sans-serif;
   color: var(--primary-color);
   margin-bottom: 0.5rem;
 }
+
 
 a {
   text-decoration: none;

@@ -6,106 +6,111 @@ import { motion } from 'framer-motion';
 const { Title, Paragraph } = Typography;
 
 const Problem = () => {
-    const problems = [
+    const dataKeys = [
         {
-            title: "Fraude des Procès-Verbaux",
-            description: "Manipulation, perte ou falsification des documents physiques lors du transport vers les centres de centralisation.",
-            icon: <FileExcelOutlined />,
-            danger: true
+            stat: "28 %",
+            label: "Confiance en 2022",
+            description: "Seulement 28 % des Maliens font confiance aux résultats officiels (Afrobaromètre, 2022).",
+            color: 'var(--primary-color)'
         },
         {
-            title: "Manque de confiance",
-            description: "Une vaste méfiance du public envers les résultats publiés par les organes de gestion des élections.",
-            icon: <DisconnectOutlined />
+            stat: "+400",
+            label: "Bureaux contestés en 2018",
+            description: "Plus de 400 bureaux de vote contestés lors de la présidentielle de 2018.",
+            color: 'var(--primary-color)'
         },
         {
-            title: "Délais extrêmement longs",
-            description: "Plusieurs jours d'attente pour compiler des résultats centralisés, créant des tensions sociales.",
-            icon: <ClockCircleOutlined />
-        },
-        {
-            title: "Contestations massives",
-            description: "Les résultats sont souvent rejetés par l'opposition, menant à des recours et parfois des violences.",
-            icon: <WarningOutlined />,
-            danger: true
+            stat: "5-9j",
+            label: "Délais d'attente",
+            description: "Les résultats provisoires prennent jusqu'à 9 jours pour être centralisés.",
+            color: 'var(--secondary-color)'
         }
     ];
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1 }
-    };
-
     return (
-        <section className="section-container">
-            <div className="section-title-wrapper">
-                <Title className="section-title">Pourquoi le système actuel échoue ?</Title>
-                <Paragraph className="section-subtitle">
-                    Le processus électoral au Mali fait face à des défis structurels majeurs qui compromettent la légitimité des résultats.
-                </Paragraph>
-            </div>
+        <section className="section-container" style={{ background: '#fff', borderRadius: '24px', padding: '80px 5%', boxShadow: '0 10px 30px rgba(0,0,0,0.02)', textAlign: 'center' }}>
+            <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                style={{ marginBottom: '48px' }}
+            >
+                <Title className="section-title" style={{ fontSize: '2.5rem', marginBottom: '16px' }}>
+                    Pourquoi le système actuel échoue
+                </Title>
+            </motion.div>
 
-            <Row gutter={[24, 24]} style={{ marginBottom: '48px' }}>
-                <Col xs={24} md={12} lg={6}>
-                    <div className="stat-card">
-                        <Statistic title="Manque de confiance" value={28} suffix="%" valueStyle={{ color: 'var(--danger-color)', fontWeight: 'bold' }} />
-                        <Paragraph style={{ marginTop: 12, fontSize: '13px', color: '#666' }}>des citoyens font confiance aux institutions électorales</Paragraph>
-                    </div>
-                </Col>
-                <Col xs={24} md={12} lg={6}>
-                    <div className="stat-card">
-                        <Statistic title="Délais d'attente" value={5} suffix="- 9 jours" valueStyle={{ color: 'var(--warning-color)', fontWeight: 'bold' }} />
-                        <Paragraph style={{ marginTop: 12, fontSize: '13px', color: '#666' }}>pour la publication complète des résultats provisoires</Paragraph>
-                    </div>
-                </Col>
-                <Col xs={24} md={12} lg={6}>
-                    <div className="stat-card">
-                        <Statistic title="Contestations" value={400} prefix="+" suffix="b.v." valueStyle={{ color: 'var(--danger-color)', fontWeight: 'bold' }} />
-                        <Paragraph style={{ marginTop: 12, fontSize: '13px', color: '#666' }}>bureaux de vote annulés lors des élections précédentes</Paragraph>
-                    </div>
-                </Col>
-                <Col xs={24} md={12} lg={6}>
-                    <div className="stat-card">
-                        <Statistic title="Processus Manuel" value={100} suffix="%" valueStyle={{ color: 'var(--warning-color)', fontWeight: 'bold' }} />
-                        <Paragraph style={{ marginTop: 12, fontSize: '13px', color: '#666' }}>Transport physique des documents ouvrant la porte à la fraude</Paragraph>
-                    </div>
-                </Col>
+            <Row gutter={[24, 24]} justify="center">
+                {dataKeys.map((item, index) => (
+                    <Col xs={24} sm={12} md={8} key={index}>
+                        <motion.div
+                            whileHover={{ y: -5 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                            <div className="interactive-stat-card" style={{
+                                background: 'var(--bg-light)',
+                                padding: '32px 20px',
+                                borderRadius: '20px',
+                                height: '180px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                border: '1px solid var(--border-light)',
+                                position: 'relative',
+                                overflow: 'hidden'
+                            }}>
+                                <div className="card-front">
+                                    <Title level={2} style={{ margin: 0, color: item.color, fontWeight: '800', fontSize: '2.5rem' }}>
+                                        {item.stat}
+                                    </Title>
+                                    <Paragraph style={{ margin: '8px 0 0', fontWeight: '600', color: 'var(--text-main)', textTransform: 'uppercase', fontSize: '11px', letterSpacing: '1px' }}>
+                                        {item.label}
+                                    </Paragraph>
+                                </div>
+                                <div className="card-hover-info" style={{
+                                    position: 'absolute',
+                                    top: 0, left: 0, width: '100%', height: '100%',
+                                    background: 'var(--primary-color)',
+                                    padding: '24px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    opacity: 0,
+                                    transition: 'opacity 0.3s ease',
+                                    color: '#fff',
+                                    fontSize: '13px',
+                                    lineHeight: '1.5',
+                                    fontWeight: '500'
+                                }}>
+                                    {item.description}
+                                </div>
+                            </div>
+                        </motion.div>
+                    </Col>
+                ))}
             </Row>
 
-            {/* <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <Row gutter={[24, 24]}>
-                    {problems.map((problem, index) => (
-                        <Col xs={24} md={12} key={index}>
-                            <motion.div variants={itemVariants} style={{ height: '100%' }}>
-                                <Card className="custom-card" bordered={false}>
-                                    <div className="card-icon-wrapper" style={{
-                                        background: problem.danger ? 'var(--danger-bg-light)' : 'var(--secondary-bg-light)',
-                                        color: problem.danger ? 'var(--danger-color)' : 'var(--secondary-color)'
-                                    }}>
-                                        {problem.icon}
-                                    </div>
-                                    <Title level={4}>{problem.title}</Title>
-                                    <Paragraph style={{ color: '#666', marginBottom: 0 }}>
-                                        {problem.description}
-                                    </Paragraph>
-                                </Card>
-                            </motion.div>
-                        </Col>
-                    ))}
-                </Row>
-            </motion.div> */}
+
+            <style>{`
+                .interactive-stat-card:hover .card-front {
+                    opacity: 0;
+                }
+                .interactive-stat-card:hover .card-hover-info {
+                    opacity: 1 !important;
+                }
+                .interactive-stat-card:active .card-hover-info {
+                    opacity: 1 !important;
+                }
+            `}</style>
         </section>
     );
 };
+
+
 
 export default Problem;

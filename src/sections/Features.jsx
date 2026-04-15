@@ -30,9 +30,9 @@ const Features = () => {
         <section className="section-container" style={{ padding: '80px 5%' }}>
             <div className="section-title-wrapper">
                 <Title className="section-title">Fonctionnalités Clés</Title>
-                <Paragraph className="section-subtitle">
+                {/* <Paragraph className="section-subtitle">
                     VoteLedger combine la sécurité de la blockchain avec des interfaces simples pour tous les acteurs.
-                </Paragraph>
+                </Paragraph> */}
             </div>
 
             <Row gutter={[32, 32]}>
