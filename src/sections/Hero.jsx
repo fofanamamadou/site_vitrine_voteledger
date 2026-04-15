@@ -6,6 +6,39 @@ import { ArrowRightOutlined, PlayCircleOutlined } from '@ant-design/icons';
 const { Title, Paragraph } = Typography;
 
 const Hero = () => {
+    const [text, setText] = React.useState('');
+    const [isDeleting, setIsDeleting] = React.useState(false);
+    const [loopNum, setLoopNum] = React.useState(0);
+    const [typingSpeed, setTypingSpeed] = React.useState(150);
+
+    const phrases = ["Un vote clair, des résultats sûrs", "VoteLedger"];
+
+    React.useEffect(() => {
+        let timer = setTimeout(() => {
+            const currentPhrase = phrases[loopNum % phrases.length];
+            const updatedText = isDeleting
+                ? currentPhrase.substring(0, text.length - 1)
+                : currentPhrase.substring(0, text.length + 1);
+
+            setText(updatedText);
+
+            if (!isDeleting && updatedText === currentPhrase) {
+                setIsDeleting(true);
+                // Pause plus courte pour VoteLedger (index 1)
+                setTypingSpeed(loopNum % phrases.length === 1 ? 800 : 2000);
+            } else if (isDeleting && updatedText === '') {
+                setIsDeleting(false);
+                setLoopNum(loopNum + 1);
+                setTypingSpeed(500);
+            } else {
+                setTypingSpeed(isDeleting ? 50 : 100);
+            }
+        }, typingSpeed);
+
+        return () => clearTimeout(timer);
+    }, [text, isDeleting, typingSpeed, loopNum]);
+
+
     return (
         <section className="hero-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '72px' }}>
             <Row className="section-container" style={{ width: '100%', padding: '0 5%' }} align="middle" gutter={[48, 48]}>
@@ -17,13 +50,43 @@ const Hero = () => {
                         transition={{ duration: 0.6 }}
                         className="hero-content"
                     >
-                        <Title className="hero-title">
-                            Un vote clair, des résultats sûrs
-                        </Title>
+                        <div style={{ minHeight: '120px' }}>
+                            <Title className="hero-title" style={{ margin: 0 }}>
+                                {text}
+                                <span style={{ marginLeft: '4px', borderRight: '3px solid var(--secondary-color)', animation: 'blink 0.7s infinite' }}>&nbsp;</span>
+                            </Title>
+                        </div>
+
+
                         <Paragraph className="hero-subtitle">
-                            Chaque vote compte, la technologie le prouve. Nous utilisons la blockchain pour rendre les résultats électoraux infalsifiables et garantir une paix durable par la transparence.
+                            Nous utilisons la blockchain pour rendre les résultats électoraux infalsifiables <span className="hide-on-mobile">et garantir une paix durable par la transparence.</span>
                         </Paragraph>
+
+                        {/* Mobile Only Animation */}
+                        <div className="show-on-mobile" style={{ marginBottom: '32px' }}>
+                            <motion.div
+                                animate={{
+                                    scale: [1, 1.1, 1],
+                                    opacity: [0.7, 1, 0.7]
+                                }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    background: 'var(--secondary-bg-light)',
+                                    borderRadius: '50%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    margin: '0 auto'
+                                }}
+                            >
+                                <div style={{ width: '20px', height: '20px', background: 'var(--secondary-color)', borderRadius: '50%' }} />
+                            </motion.div>
+                        </div>
+
                         <Space className="hero-buttons">
+
                             <Button type="primary" size="large" href="#problem" style={{ display: 'flex', alignItems: 'center' }}>
                                 Découvrir <ArrowRightOutlined />
                             </Button>
